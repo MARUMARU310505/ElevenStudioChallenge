@@ -3,7 +3,7 @@ const REQUEST_DELAY = 250;
 
 export async function POST(req) {
     try {
-        const { query } = await req.json();
+        const { body, url } = await req.json();
 
         const now = Date.now();
         const timeSinceLastRequest = now - lastRequestTime;
@@ -16,8 +16,7 @@ export async function POST(req) {
 
         const CLIENT_ID = "gbsh8lrmvb1uvj2eof8rumykxwbmtb";
         const ACCESS_TOKEN = "m25n78orh22ybl12ilx7naerlstlz2";
-        const API_URL = "https://api.igdb.com/v4/games";
-
+        const API_URL = url;
         const response = await fetch(API_URL, {
             method: "POST",
             headers: {
@@ -26,11 +25,12 @@ export async function POST(req) {
                 "Accept": "application/json",
                 "Content-Type": "text/plain"
             },
-            body: `search "${query}"; fields name, cover.url, genres.name, first_release_date; limit 5;`
+            body: body
         });
 
         if (!response.ok) {
-            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+            const errorDetails = await response.text();  // Captura el detalle del error si está disponible
+            throw new Error(`Error: ${response.status} - ${response.statusText}, Details: ${errorDetails}`);
         }
 
         const data = await response.json();
