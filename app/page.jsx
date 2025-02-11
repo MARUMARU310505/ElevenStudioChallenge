@@ -4,6 +4,8 @@ import Searchbar from "../components/Searchbar";
 import { obtenerJuegosGuardados, eliminarJuego } from "@/utils/LocalStorage";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button"
+import Image from 'next/image';
+import { formatImageUrl } from "@/utils/formatUrl"; // Importar la función
 
 function ListaJuegos({ juegos, onEliminar, filter }) {
     let juegosOrdenados = [...juegos]; // Hacemos una copia para evitar mutaciones directas
@@ -29,14 +31,22 @@ function ListaJuegos({ juegos, onEliminar, filter }) {
         default:
             break;
     }
-    
+
     return (
         <div className="p-14">
             <ul>
                 {juegosOrdenados.map(juego => (
                     <li key={juego.id}>
-                        <Link href={`/game/${juego.id}`}>
-                            <img src={juego.cover} alt={juego.name} />
+                        {console.log(juego.cover)}
+                        <Link href={`/game/${juego.slug}`}>
+                            
+                            <Image
+                                src={formatImageUrl(juego.cover)}
+                                alt={juego.name}
+                                width={100}
+                                height={100}
+                                layout="intrinsic"
+                            />
                             <p>{juego.name}</p>
                         </Link>
                         <Button variant="outline" onClick={() => onEliminar(juego.id)}>❌ Eliminar</Button>
@@ -64,7 +74,7 @@ export default function Home() {
         eliminarJuego(id);
         // Actualizar los juegos después de eliminar
         const juegosGuardados = obtenerJuegosGuardados();
-        setJuegos(juegosGuardados); 
+        setJuegos(juegosGuardados);
     };
 
     return (

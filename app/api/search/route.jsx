@@ -1,3 +1,4 @@
+// app/api/route.jsx
 let lastRequestTime = 0;
 const REQUEST_DELAY = 250;
 
@@ -17,6 +18,7 @@ export async function POST(req) {
         const CLIENT_ID = "gbsh8lrmvb1uvj2eof8rumykxwbmtb";
         const ACCESS_TOKEN = "m25n78orh22ybl12ilx7naerlstlz2";
         const API_URL = url;
+
         const response = await fetch(API_URL, {
             method: "POST",
             headers: {
@@ -29,7 +31,7 @@ export async function POST(req) {
         });
 
         if (!response.ok) {
-            const errorDetails = await response.text();  // Captura el detalle del error si está disponible
+            const errorDetails = await response.text();
             throw new Error(`Error: ${response.status} - ${response.statusText}, Details: ${errorDetails}`);
         }
 

@@ -1,4 +1,4 @@
-export default function guardarJuego(id, name, cover, releaseDate) {
+export default function guardarJuego(id,slug, name, cover, releaseDate) {
     // Obtener la lista actual de juegos guardados
     let savedGames = JSON.parse(localStorage.getItem("savedGames")) || [];
 
@@ -10,8 +10,10 @@ export default function guardarJuego(id, name, cover, releaseDate) {
     }
 
     // Crear objeto con la información del juego
+    console.log(id,slug, name, cover, releaseDate)
     const nuevoJuego = {
         id,
+        slug,
         name,
         cover,
         addedAt: new Date().toISOString(), // Fecha de añadido (ISO 8601)

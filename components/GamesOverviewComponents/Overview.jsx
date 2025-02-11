@@ -3,19 +3,21 @@ import { useEffect, useState } from "react";
 import { fetchDataFromApi } from "@/utils/FetchData"; // Importamos la función reutilizable
 import Screenshots from "@/components/GamesOverviewComponents/Screenshots"; // Asegúrate de importar correctamente el componente Overview
 import SimilarGames from "@/components/GamesOverviewComponents/SimilarGames"; // Asegúrate de importar correctamente el componente Overview
-import  guardarJuego  from "@/utils/LocalStorage";
+import guardarJuego from "@/utils/LocalStorage";
+import Image from 'next/image';
+import { formatImageUrl } from "@/utils/formatUrl"; // Importar la función
 
-export default function Overview({ id }) { // Recibimos el `id` como prop
+export default function Overview({ slug }) { // Recibimos el `id` como prop
 
     const [game, setGame] = useState(null);
     const [platforms, setPlatforms] = useState([]); // Estado para plataformas
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (!id) return; // Evita ejecutar si `id` aún no está disponible
+        if (!slug) return; // Evita ejecutar si `id` aún no está disponible
 
         // Definir el cuerpo específico de la consulta para el juego
-        const gameBody = `fields name, cover.url, genres.name, first_release_date, summary, platforms, screenshots, similar_games; where id = ${id};`;
+        const gameBody = `where slug = "${slug}";fields name, slug, cover.url, genres.name, first_release_date, summary, platforms, screenshots, similar_games; limit 1;`;
         const gameUrl = "https://api.igdb.com/v4/games";
 
         // Usamos la función reutilizable para hacer la solicitud
@@ -36,7 +38,7 @@ export default function Overview({ id }) { // Recibimos el `id` como prop
                 }
             })
             .catch(error => setError(error.message));
-    }, [id]); // Solo se ejecuta cuando cambia el `id`
+    }, [slug]); // Solo se ejecuta cuando cambia el `id`
 
     if (error) return <div className="text-red-500">Error: {error}</div>;
     if (!game) return <h1 className="text-gray-500">Cargando Juego...</h1>;
@@ -45,13 +47,19 @@ export default function Overview({ id }) { // Recibimos el `id` como prop
         <div className="p-4">
             <h1 className="text-2xl font-bold">{game.name}</h1>
             {game.cover?.url && (
-                <img
-                    src={game.cover.url.replace("t_thumb", "t_1080p")}
-                    alt={game.name}
-                    className="w-48 h-auto rounded-lg shadow-lg my-4"
-                />
+
+
+                <Image
+                src={formatImageUrl(game.cover.url.replace("t_thumb", "t_1080p"))}
+                alt={game.name}
+                width={1000}
+                height={1000}
+                layout="intrinsic"
+                className="w-48 h-auto rounded-lg shadow-lg my-4"
+            />
             )}
-            <button onClick={() => guardarJuego(game.id, game.name, game.cover?.url, game.first_release_date ? new Date(game.first_release_date * 1000).toLocaleDateString() : "Desconocido")}>
+
+            <button onClick={() => guardarJuego(game.id, game.slug, game.name, game.cover.url.replace("t_thumb", "t_1080p"), game.first_release_date ? new Date(game.first_release_date * 1000).toLocaleDateString() : "Desconocido")}>
                 Guardar Juego
             </button>
             <p className="text-gray-600">

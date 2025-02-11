@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { fetchDataFromApi } from "@/utils/FetchData"; // Utiliza la función reutilizable
+import Image from 'next/image';
+import { formatImageUrl } from "@/utils/formatUrl"; // Importar la función
 
 export default function Screenshots({ ids }) {
     const [screenshots, setScreenshots] = useState([]);
@@ -28,12 +30,13 @@ export default function Screenshots({ ids }) {
             <div className="grid grid-cols-3 gap-4 mt-4">
                 {screenshots.map((screenshot, index) => (
                     <div key={index} className="w-full h-auto">
-                        <img
-                            src={screenshot.url.replace("t_thumb", "t_1080p")} // Reemplaza `t_thumb` por `t_og` para una resolución más alta
+                        <Image
+                            src={formatImageUrl(screenshot.url.replace("t_thumb", "t_1080p"))}
                             alt={`Screenshot ${index + 1}`}
                             width={screenshot.width}
                             height={screenshot.height}
                             className="w-full h-auto rounded-lg shadow-md"
+                            layout="intrinsic"
                         />
                     </div>
                 ))}

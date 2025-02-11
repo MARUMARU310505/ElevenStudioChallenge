@@ -16,7 +16,7 @@ export default function Realtimeresults({ query }) {
 
         const fetchData = async () => {
             try {
-                const body = `search "${query}"; fields name, cover.url, genres.name, first_release_date; limit 5;`;
+                const body = `search "${query}"; fields name, cover.url, genres.name, first_release_date, slug; limit 5;`;
                 const url = "https://api.igdb.com/v4/games";
 
                 const response = await fetch("/api/search", {
@@ -75,8 +75,9 @@ export default function Realtimeresults({ query }) {
                                     />
                                 )}
                                 <div>
-
-                                    <Link href={`/game/${game.id}`}>
+                                    {console.log(game.slug)}
+                                    
+                                    <Link href={`/game/${game.slug }`}>
                                         <p className="font-semibold">{game.name}</p>
                                         {game.genres && (
                                             <p className="text-sm text-gray-500">
