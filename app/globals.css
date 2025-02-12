@@ -1,9 +1,57 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
 @layer base {
   :root {
     --radius: 0.5rem
   }
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+h1 {
+
+font-weight: 600;
+font-size: 20px;
+line-height: 24px;
+
+background: linear-gradient(273.17deg, #6727A6 8.25%, #3C1661 91.72%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-fill-color: transparent;
+
+
+flex: none;
+order: 1;
+flex-grow: 0;
+
+}
+h2 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+
+}
+h3 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #7837b8
+}
+
+h4 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+}
+
+input:focus + span svg {
+  color: #7837b8; 
+}

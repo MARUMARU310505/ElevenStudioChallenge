@@ -1,30 +1,26 @@
-export default function guardarJuego(id,slug, name, cover, releaseDate) {
-    // Obtener la lista actual de juegos guardados
+export default function toggleGuardarJuego(id, slug, name, cover, releaseDate) {
     let savedGames = JSON.parse(localStorage.getItem("savedGames")) || [];
 
-    // Verificar si el juego ya está guardado
-    const existe = savedGames.some(game => game.id === id);
-    if (existe) {
-        alert("Este juego ya está guardado.");
-        return;
+    const index = savedGames.findIndex(game => game.id === id);
+
+    if (index !== -1) {
+        savedGames.splice(index, 1);
+        localStorage.setItem("savedGames", JSON.stringify(savedGames));
+        return false; 
+    } else {
+        const nuevoJuego = {
+            id,
+            slug,
+            name,
+            cover,
+            addedAt: new Date().toISOString(),
+            releaseDate
+        };
+
+        savedGames.push(nuevoJuego);
+        localStorage.setItem("savedGames", JSON.stringify(savedGames));
+        return true; 
     }
-
-    // Crear objeto con la información del juego
-    console.log(id,slug, name, cover, releaseDate)
-    const nuevoJuego = {
-        id,
-        slug,
-        name,
-        cover,
-        addedAt: new Date().toISOString(), // Fecha de añadido (ISO 8601)
-        releaseDate
-    };
-
-    // Guardar en el array y actualizar LocalStorage
-    savedGames.push(nuevoJuego);
-    localStorage.setItem("savedGames", JSON.stringify(savedGames));
-
-    alert(`Juego "${name}" guardado exitosamente.`);
 }
 
 export function obtenerJuegosGuardados() {
@@ -34,9 +30,16 @@ export function obtenerJuegosGuardados() {
 export function eliminarJuego(id) {
     let juegos = JSON.parse(localStorage.getItem("savedGames")) || [];
 
-    // Filtra los juegos dejando solo los que NO coincidan con el ID
     juegos = juegos.filter(juego => juego.id !== id);
 
-    // Guarda la nueva lista en LocalStorage
     localStorage.setItem("savedGames", JSON.stringify(juegos));
+}
+
+export function exist(id){
+    let savedGames = JSON.parse(localStorage.getItem("savedGames")) || [];
+    const existe = savedGames.some(game => game.id === id);
+    if (existe) {    
+        return true;
+    }
+    return false;
 }

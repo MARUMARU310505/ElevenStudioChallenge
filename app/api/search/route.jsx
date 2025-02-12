@@ -1,19 +1,6 @@
-// app/api/route.jsx
-let lastRequestTime = 0;
-const REQUEST_DELAY = 250;
-
 export async function POST(req) {
     try {
         const { body, url } = await req.json();
-
-        const now = Date.now();
-        const timeSinceLastRequest = now - lastRequestTime;
-
-        if (timeSinceLastRequest < REQUEST_DELAY) {
-            await new Promise(resolve => setTimeout(resolve, REQUEST_DELAY - timeSinceLastRequest));
-        }
-
-        lastRequestTime = Date.now();
 
         const CLIENT_ID = "gbsh8lrmvb1uvj2eof8rumykxwbmtb";
         const ACCESS_TOKEN = "m25n78orh22ybl12ilx7naerlstlz2";
@@ -41,4 +28,5 @@ export async function POST(req) {
     } catch (error) {
         return Response.json({ error: error.message }, { status: 500 });
     }
+    
 }
