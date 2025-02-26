@@ -19,7 +19,7 @@ export default function Navbar() {
                     </Link>
                     <Link href={"/"}>
                         <h1 className="font-bold bg-gradient-to-r from-[#3c1661] to-[#8038c9] bg-clip-text text-transparent">
-                            Epic Gaming
+                            Marus Library
                         </h1>
                     </Link>
                 </div>
