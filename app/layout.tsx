@@ -9,11 +9,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Epic Gaming | Home",  
     description: "Descubre y guarda tus videojuegos favoritos en Epic Gaming.",
-    url: "https://www.tu-sitio-web.com",
+    url: "https://eleven-studio-challenge.vercel.app/",
     siteName: "Epic Gaming",
     images: [
       {
-        url: "https://www.tu-sitio-web.com/imagen-previa.jpg", 
+        url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmN4lJni3wJeQJ2S8cXblsRrZY4hItckkQpw&s", 
         width: 1200,
         height: 630,
         alt: "Epic Gaming - Juegos"
